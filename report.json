@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "engine": "Cloud-Based Python Analysis Engine (PCAP)",
+    "scan_mode": "batch_forensics",
+    "engine_source": "cloud_python",
+    "pcap_source": "smtp.pcap",
+    "generated_at": "2026-09-06T08:20:04.699063+00:00"
+  },
+  "summary": {
+    "total_streams_analyzed": 1,
+    "risk_breakdown": {
+      "Medium": 1
+    },
+    "anomalous_streams": 0,
+    "highest_risk_score": 25
+  },
+  "findings": [
+    {
+      "stream_id": "334b80f8",
+      "src_ip": "10.10.1.4",
+      "dst_ip": "74.53.140.153",
+      "protocol": "SMTP",
+      "tls_version": null,
+      "cipher_suite": null,
+      "risk_score": 25,
+      "risk_classification": "Medium",
+      "anomaly": false,
+      "ml_predictions": {},
+      "findings": [
+        {
+          "stream_id": "334b80f8",
+          "severity": "high",
+          "category": "Unencrypted Session",
+          "description": "SMTP session completed with no STARTTLS/TLS observed \u2014 credentials and message content likely sent in plaintext.",
+          "recommendation": "Enforce mandatory STARTTLS (reject plaintext AUTH) or require implicit TLS ports (465/993/995)."
+        }
+      ]
+    }
+  ]
+}
