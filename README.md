@@ -9,43 +9,43 @@ Email traffic (SMTP / IMAP / POP3 + modern Outlook 365 / Gmail over HTTPS) ko do
 
 ```
 ┌─────────────────────────┐        ┌──────────────────────────┐
-│  LOCAL C++ ENGINE        │        │  CLOUD PYTHON ENGINE      │
-│  (Live Traffic Path)     │        │  (Batch PCAP Forensics)   │
-│                           │        │                            │
-│  1. Packet Capture        │        │  1. Traffic Dissection     │
-│     (libpcap / Npcap)     │        │  2. Protocol Identification│
-│  2. Protocol ID            │        │  3. TCP Stream Reconstruct │
-│     (SMTP/IMAP/POP3 +      │        │  4. STARTTLS Detection     │
-│      443 via SNI)          │        │  5. TLS Handshake Parsing  │
-│  3. STARTTLS Detection      │        │  6. Crypto Feature Extract │
-│  4. Heuristic Checks        │        │  7. Security Assessment    │
-│  5. Suspicious Event Gate   │        │  8. AI/ML Risk Scoring      │
-│  6. Fast Local Actions      │        │  9. Report Generation       │
-│  7. POST -> Cloud API        │        │                            │
-└────────────┬──────────────┘        └─────────────┬──────────────┘
-             │  HTTPS (/api/events,                 │  HTTPS (/api/upload)
-             │   /api/engine/heartbeat)              │
-             └───────────────┬────────────────────────┘
-                              ▼
+│  LOCAL C++ ENGINE       │        │  CLOUD PYTHON ENGINE     │
+│  (Live Traffic Path)    │        │  (Batch PCAP Forensics)  │
+│                         │        │                          │
+│1. Packet Capture        │        │1. Traffic Dissection     │
+│   (libpcap / Npcap)     │        │2. Protocol Identification│
+│2. Protocol ID           │        │3. TCP Stream Reconstruct │
+│  (SMTP/IMAP/POP3 +      │        │4. STARTTLS Detection     │
+│   443 via SNI)          │        │5. TLS Handshake Parsing  │
+│3. STARTTLS Detection    │        │6. Crypto Feature Extract │
+│4. Heuristic Checks      │        │7. Security Assessment    │
+│5. Suspicious Event Gate │        │8. AI/ML Risk Scoring     │
+│6. Fast Local Actions    │        │9. Report Generation      │
+│  7. POST -> Cloud API   |        │                          │
+└────────────┬────────────┘        └─────────────┬────────────┘
+             │  HTTPS (/api/events,              │  HTTPS (/api/upload)
+             │   /api/engine/heartbeat)          │
+             └───────────────┬───────────────────┘
+                             ▼
                   ┌────────────────────────┐
-                  │   FastAPI Backend        │
-                  │   (app.py)                │
-                  │  - REST API                │
-                  │  - WebSocket (/ws/live)     │
-                  │  - PDF report generation     │
+                  │  FastAPI Backend       │
+                  │  (app.py)              │
+                  │ - REST API             │
+                  │ - WebSocket (/ws/live) │
+                  │ - PDF report generation│
+                  └────────────┬───────────┘
+                               ▼
+                  ┌──────────────────────────┐
+                  │Supabase (Postgres)       │
+                  │threat_logs, alerts,      │
+                  │tls_sessions, certificates│
                   └────────────┬─────────────┘
                                ▼
-                  ┌────────────────────────┐
-                  │   Supabase (Postgres)    │
-                  │  threat_logs, alerts,     │
-                  │  tls_sessions, certificates│
-                  └────────────┬─────────────┘
-                               ▼
-                  ┌────────────────────────┐
-                  │   Web Dashboard           │
-                  │  index.html (login)        │
-                  │  Cryptoscopedashboard.html  │
-                  └────────────────────────┘
+                  ┌──────────────────────────┐
+                  │   Web Dashboard          │
+                  │  index.html (login)      │
+                  │Cryptoscopedashboard.html │
+                  └──────────────────────────┘
 ```
 
 Dono engines (live C++ aur batch Python) independently apna-apna analysis karte hain lekin **same backend** pe data push karte hain, isliye dashboard pe live alerts aur uploaded-PCAP findings ek hi jagah dikhte hain.
