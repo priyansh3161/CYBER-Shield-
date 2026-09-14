@@ -1,0 +1,105 @@
+[2026-09-10T20:27:08Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T09:31:06Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T09:31:22Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T13:48:10Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T13:55:35Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T14:00:21Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:49784 -> 172.217.114.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T14:02:39Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T14:05:58Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T14:09:04Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T14:14:17Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:56055 -> 40.126.18.32:443  SNI=login.microsoftonline.com
+[2026-09-11T14:19:56Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T14:21:18Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:50701 -> 40.104.77.210:443  SNI=outlook.office.com
+[2026-09-11T14:21:19Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:56911 -> 40.104.77.210:443  SNI=outlook.office.com
+[2026-09-11T14:21:26Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:57989 -> 40.104.77.210:443  SNI=outlook.office.com
+[2026-09-11T14:21:30Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:64000 -> 20.190.175.152:443  SNI=graph.microsoft.com
+[2026-09-11T14:24:33Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:51285 -> 142.250.143.95:443  SNI=fonts.googleapis.com
+[2026-09-11T14:24:40Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:59198 -> 172.217.113.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T14:26:28Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:54361 -> 40.104.66.50:443  SNI=outlook.office.com
+[2026-09-11T14:37:19Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-11T14:40:04Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:65423 -> 172.217.112.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T14:40:10Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:65065 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-11T14:41:52Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:49667 -> 172.217.115.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T14:42:34Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:50103 -> 172.217.118.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T14:46:28Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:61606 -> 172.217.112.4:443  SNI=optimizationguide-pa.googleapis.com
+[2026-09-11T14:46:30Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:54730 -> 172.217.119.4:443  SNI=memex-pa.googleapis.com
+[2026-09-11T14:54:08Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:58684 -> 20.190.146.35:443  SNI=login.microsoftonline.com
+[2026-09-11T14:54:09Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:61836 -> 20.190.175.152:443  SNI=graph.microsoft.com
+[2026-09-11T15:02:56Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:64882 -> 172.217.115.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T15:08:29Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:63589 -> 142.250.195.74:443  SNI=fonts.googleapis.com
+[2026-09-11T15:18:48Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:55819 -> 172.217.26.42:443  SNI=fonts.googleapis.com
+[2026-09-11T15:20:43Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:51884 -> 172.217.112.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T15:21:29Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:58692 -> 172.217.119.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T15:22:02Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:59407 -> 172.217.115.4:443  SNI=content-autofill.googleapis.com
+[2026-09-11T15:40:38Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:62058 -> 172.217.113.4:443  SNI=memex-pa.googleapis.com
+[2026-09-11T16:05:41Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:52375 -> 52.98.63.34:443  SNI=outlook.office.com
+[2026-09-12T10:55:58Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-12T11:02:20Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-12T11:16:38Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-12T12:37:38Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:50362 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-12T12:38:44Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:64181 -> 172.217.26.42:443  SNI=fonts.googleapis.com
+[2026-09-12T12:38:50Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:49931 -> 172.217.26.42:443  SNI=fonts.googleapis.com
+[2026-09-12T12:39:48Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:56543 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-12T12:39:49Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:59848 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-12T12:39:53Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:54421 -> 172.217.117.4:443  SNI=oauthaccountmanager.googleapis.com
+[2026-09-12T12:39:54Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:59693 -> 172.217.112.4:443  SNI=optimizationguide-pa.googleapis.com
+[2026-09-12T12:39:54Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:58044 -> 172.217.117.4:443  SNI=oauthaccountmanager.googleapis.com
+[2026-09-12T12:40:22Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:51508 -> 172.217.118.4:443  SNI=securitydomain-pa.googleapis.com
+[2026-09-12T12:40:30Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:52862 -> 142.250.29.139:443  SNI=update.googleapis.com
+[2026-09-12T12:40:31Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:60040 -> 142.250.182.46:443  SNI=clientservices.googleapis.com
+[2026-09-12T12:40:47Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:50623 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-12T12:41:17Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:51930 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-12T12:41:20Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:58190 -> 172.217.112.4:443  SNI=memex-pa.googleapis.com
+[2026-09-12T12:41:21Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:50260 -> 172.217.117.4:443  SNI=securitydomain-pa.googleapis.com
+[2026-09-12T12:41:24Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:56584 -> 172.217.113.4:443  SNI=optimizationguide-pa.googleapis.com
+[2026-09-12T12:41:40Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:55705 -> 172.217.115.4:443  SNI=content-autofill.googleapis.com
+[2026-09-12T12:43:38Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:52342 -> 172.217.116.4:443  SNI=oauthaccountmanager.googleapis.com
+[2026-09-12T12:46:08Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-12T12:56:30Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:55414 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-12T12:57:00Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:50841 -> 172.217.115.4:443  SNI=oauthaccountmanager.googleapis.com
+[2026-09-12T12:57:04Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:51816 -> 172.217.113.4:443  SNI=www.googleapis.com
+[2026-09-12T12:59:54Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:63432 -> 20.190.175.24:443  SNI=graph.microsoft.com
+[2026-09-12T12:59:54Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:63434 -> 20.190.175.24:443  SNI=graph.microsoft.com
+[2026-09-12T12:59:55Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:63433 -> 20.190.175.24:443  SNI=graph.microsoft.com
+[2026-09-12T13:00:36Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:54025 -> 172.217.117.4:443  SNI=content-autofill.googleapis.com
+[2026-09-12T13:00:39Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:62352 -> 142.250.118.207:443  SNI=storage.googleapis.com
+[2026-09-12T13:01:19Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:52792 -> 172.217.119.4:443  SNI=webpermissionpredictions.googleapis.com
+[2026-09-12T13:02:01Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  192.168.1.66:53452 -> 20.190.175.152:443  SNI=graph.microsoft.com
+[2026-09-12T13:25:50Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:62133 -> 172.217.114.4:443  SNI=oauthaccountmanager.googleapis.com
+[2026-09-12T13:26:16Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:49667 -> 172.217.119.4:443  SNI=www.googleapis.com
+[2026-09-12T13:41:54Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:57976 -> 142.250.29.138:443  SNI=update.googleapis.com
+[2026-09-12T15:07:27Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:55327 -> 142.251.126.95:443  SNI=fonts.googleapis.com
+[2026-09-12T15:28:57Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:50316 -> 172.217.119.4:443  SNI=jnn-pa.googleapis.com
+[2026-09-12T15:36:10Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:57548 -> 142.250.193.42:443  SNI=fonts.googleapis.com
+[2026-09-12T15:36:14Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  192.168.1.66:61165 -> 172.217.116.4:443  SNI=content-autofill.googleapis.com
+[2026-09-14T03:41:52Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:54038 -> 142.250.182.46:443  SNI=update.googleapis.com
+[2026-09-14T03:44:29Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:61474 -> 192.178.158.101:443  SNI=update.googleapis.com
+[2026-09-14T03:44:31Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:50680 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-14T03:44:31Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:65437 -> 172.217.118.4:443  SNI=oauthaccountmanager.googleapis.com
+[2026-09-14T03:44:33Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:57770 -> 172.217.118.4:443  SNI=securitydomain-pa.googleapis.com
+[2026-09-14T03:44:36Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:49287 -> 172.217.116.4:443  SNI=optimizationguide-pa.googleapis.com
+[2026-09-14T03:44:39Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:64328 -> 142.250.193.138:443  SNI=safebrowsing.googleapis.com
+[2026-09-14T03:45:28Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:50252 -> 142.250.182.142:443  SNI=clientservices.googleapis.com
+[2026-09-14T03:48:32Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:64028 -> 142.250.193.138:443  SNI=safebrowsing.googleapis.com
+[2026-09-14T03:50:02Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  10.96.242.243:61691 -> 20.190.146.34:443  SNI=login.microsoftonline.com
+[2026-09-14T03:51:54Z] QUICK-ALLOW (normal): HTTPS-MAIL(Outlook365)  10.96.242.243:60010 -> 20.190.175.88:443  SNI=graph.microsoft.com
+[2026-09-14T04:00:38Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:54588 -> 172.217.118.4:443  SNI=oauthaccountmanager.googleapis.com
+[2026-09-14T04:00:40Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:64143 -> 172.217.114.4:443  SNI=memex-pa.googleapis.com
+[2026-09-14T04:04:22Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:57078 -> 192.178.158.95:443  SNI=fonts.googleapis.com
+[2026-09-14T04:04:25Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:51484 -> 192.178.158.95:443  SNI=fonts.googleapis.com
+[2026-09-14T04:24:41Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:54714 -> 172.217.117.4:443  SNI=content-autofill.googleapis.com
+[2026-09-14T04:24:46Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:59440 -> 172.217.114.4:443  SNI=passwordsleakcheck-pa.googleapis.com
+[2026-09-14T04:26:56Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T04:43:22Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T06:06:11Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:62232 -> 192.178.158.84:443  SNI=accounts.google.com
+[2026-09-14T06:11:46Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T06:13:52Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T06:16:46Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.96.242.243:53879 -> 172.217.114.4:443  SNI=content-autofill.googleapis.com
+[2026-09-14T07:10:07Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T07:22:36Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T07:24:30Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T07:55:36Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T08:03:42Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T08:19:20Z] ALERT: STARTTLS command acknowledged but no TLS handshake followed (possible STARTTLS-stripping / downgrade attack)  192.0.2.10:49876 -> 198.51.100.25:587
+[2026-09-14T08:28:58Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.204.234.243:64364 -> 172.217.118.4:443  SNI=oauthaccountmanager.googleapis.com
+[2026-09-14T08:28:58Z] QUICK-ALLOW (normal): HTTPS-MAIL(Gmail)  10.204.234.243:51861 -> 172.217.118.4:443  SNI=oauthaccountmanager.googleapis.com
