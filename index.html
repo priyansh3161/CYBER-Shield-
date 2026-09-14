@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Shield | Secure Authentication</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        :root {
+            --primary-neon: #14f1d9;
+            --primary-dim: rgba(20, 241, 217, 0.15);
+            --bg-glass: rgba(2, 10, 15, 0.55);
+            --text-main: #ffffff;
+            --text-muted: #8eb9b5;
+            --error-red: #ff2a2a;
+            --border-color: rgba(20, 241, 217, 0.35);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* --- BACKGROUND VIDEOS & TRANSITIONS --- */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: opacity 1s ease;
+        }
+
+        #bg-video {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            opacity: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 10, 15, 0.2) 0%, rgba(0, 5, 8, 0.8) 100%);
+            z-index: 0;
+        }
+
+        #intro-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .intro-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 10, 15, 0.15) 0%, rgba(0, 5, 8, 0.75) 100%);
+        }
+
+        /* --- LOGIN PANEL (NEON GLASSMORPHISM) --- */
+        .login-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 450px;
+            padding: 40px 45px;
+            background: var(--bg-glass);
+            box-shadow: 0 0 40px rgba(20, 241, 217, 0.15), inset 0 0 20px rgba(20, 241, 217, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: scale(0.92);
+            pointer-events: none;
+            transition: opacity 1s ease, transform 1s ease;
+            box-sizing: border-box;
+        }
+
+        .login-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-neon), transparent);
+            box-shadow: 0 0 15px var(--primary-neon);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header svg {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+            fill: none;
+            stroke: var(--primary-neon);
+            stroke-width: 1.5;
+            filter: drop-shadow(0 0 10px rgba(20, 241, 217, 0.5));
+        }
+
+        .header h2 {
+            margin: 0 0 4px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 26px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .header .subtitle {
+            margin: 0;
+            color: var(--primary-neon);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* SSO Button */
+        .btn-sso {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(20, 241, 217, 0.3);
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .btn-sso:hover {
+            background: var(--primary-dim);
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 20px rgba(20, 241, 217, 0.35);
+            color: var(--primary-neon);
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        .btn-sso:active {
+            transform: translateY(0) scale(0.96);
+        }
+
+        .btn-sso svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 0 0 25px;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(20, 241, 217, 0.2);
+        }
+
+        .divider::before {
+            margin-right: 15px;
+        }
+
+        .divider::after {
+            margin-left: 15px;
+        }
+
+        /* --- INPUT FIELDS (FLOATING) --- */
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .forgot-link {
+            position: absolute;
+            right: 0;
+            top: -20px;
+            font-size: 12px;
+            color: var(--primary-neon);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .forgot-link:hover {
+            text-shadow: 0 0 8px var(--primary-neon);
+            transform: scale(1.06);
+            display: inline-block;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            padding-right: 40px;
+            /* Space for eye icon */
+            font-size: 14px;
+            color: var(--text-main);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(20, 241, 217, 0.2);
+            border-radius: 8px;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .input-group input:focus,
+        .input-group input:not(:placeholder-shown) {
+            border-color: var(--primary-neon);
+            background: var(--primary-dim);
+            box-shadow: 0 0 15px rgba(20, 241, 217, 0.2);
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 15px;
+            left: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background: transparent;
+            padding: 0 4px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-group input:focus~label,
+        .input-group input:not(:placeholder-shown)~label {
+            top: -10px;
+            left: 12px;
+            font-size: 11px;
+            color: var(--primary-neon);
+            background: #020a0f;
+            font-weight: 600;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Eye Icon Toggle */
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 14px;
+            cursor: pointer;
+            color: var(--text-muted);
+            width: 18px;
+            height: 18px;
+            transition: color 0.3s ease, transform 0.3s cubic-bezier(.34, 1.56, .64, 1);
+            z-index: 2;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary-neon);
+            transform: scale(1.25);
+        }
+
+        .toggle-password:active {
+            transform: scale(0.9);
+        }
+
+        /* Checkbox */
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            margin-top: -10px;
+        }
+
+        .remember-row input[type="checkbox"] {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 1px solid rgba(20, 241, 217, 0.4);
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .remember-row input[type="checkbox"]:checked {
+            background: var(--primary-dim);
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 8px var(--primary-neon);
+        }
+
+        .remember-row input[type="checkbox"]:checked::after {
+            content: '✔';
+            position: absolute;
+            color: var(--primary-neon);
+            font-size: 11px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .remember-row label {
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        /* Create Account Link */
+        .create-account-row {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .create-account-link {
+            color: var(--primary-neon);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 4px;
+            transition: 0.3s;
+        }
+
+        .create-account-link:hover {
+            text-shadow: 0 0 8px var(--primary-neon);
+        }
+
+        /* Signup Panel: hidden by default, shown via JS toggle (no intro fade needed) */
+        .signup-wrapper {
+            display: none;
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .signup-wrapper.active {
+            display: flex;
+        }
+
+        /* Field Hint (password strength / match) */
+        .field-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin: -16px 0 20px 4px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .field-hint.mismatch {
+            color: var(--error-red);
+        }
+
+        /* Terms Checkbox */
+        .terms-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 25px;
+            margin-top: -5px;
+        }
+
+        .terms-row input[type="checkbox"] {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            margin-top: 2px;
+            border: 1px solid rgba(20, 241, 217, 0.4);
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .terms-row input[type="checkbox"]:checked {
+            background: var(--primary-dim);
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 8px var(--primary-neon);
+        }
+
+        .terms-row input[type="checkbox"]:checked::after {
+            content: '✔';
+            position: absolute;
+            color: var(--primary-neon);
+            font-size: 11px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .terms-row label {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .terms-row label a {
+            color: var(--primary-neon);
+            text-decoration: none;
+        }
+
+        .terms-row label a:hover {
+            text-shadow: 0 0 6px var(--primary-neon);
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            background: rgba(20, 241, 217, 0.1);
+            border: 1px solid var(--primary-neon);
+            padding: 15px;
+            color: var(--primary-neon);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-neon);
+            color: #000;
+            box-shadow: 0 0 30px var(--primary-neon);
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0) scale(0.96);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-error {
+            background: rgba(255, 42, 42, 0.1) !important;
+            border-color: var(--error-red) !important;
+            color: var(--error-red) !important;
+            box-shadow: 0 0 15px rgba(255, 42, 42, 0.4) !important;
+        }
+
+        /* Outside Footer Links */
+        .out-footer {
+            position: relative;
+            z-index: 1;
+            margin-top: 25px;
+            text-align: center;
+            font-size: 12px;
+            color: #5c6c7c;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .out-footer a {
+            color: #5c6c7c;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .out-footer a:hover {
+            color: var(--primary-neon);
+            text-shadow: 0 0 5px var(--primary-neon);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. VIDEO BACKGROUND -->
+    <div class="video-container" id="login-bg-container">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="background-video.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <!-- 2. FULLSCREEN INTRO VIDEO (plays before the login page) -->
+    <div id="intro-container">
+        <video id="intro-video" autoplay muted playsinline>
+            <source src="cyber-intro.mp4" type="video/mp4">
+        </video>
+        <div class="intro-overlay"></div>
+    </div>
+
+    <!-- 3. NEON LOGIN PANEL WITH NEW FEATURES -->
+    <div class="login-wrapper" id="login-panel">
+
+        <div class="header">
+            <!-- Cyber Shield Icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round" stroke-linecap="round" />
+                <path d="M9 12l2 2 4-4" stroke-linejoin="round" stroke-linecap="round" />
+            </svg>
+            <h2>Cyber Shield</h2>
+            <p class="subtitle">Secure Forensics Framework</p>
+        </div>
+
+        <!-- SSO Button -->
+        <button type="button" class="btn-sso" onclick="alert('SSO Module connecting to secure Identity Provider...')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            Continue with Single Sign-On (SSO)
+        </button>
+
+        <div class="divider">OR WITH WORK EMAIL</div>
+
+        <form id="loginForm">
+            <!-- Email / ID Input -->
+            <div class="input-group">
+                <input type="text" name="username" id="username" placeholder=" " required autocomplete="off">
+                <label>Work Email or Admin ID</label>
+            </div>
+
+            <!-- Password Input -->
+            <div class="input-group">
+                <a href="#" class="forgot-link" onclick="alert('Recovery link dispatched.')">Forgot password?</a>
+                <input type="password" name="password" id="password" placeholder=" " required>
+                <label>Password</label>
+                <!-- Eye Icon -->
+                <svg class="toggle-password" id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="remember-row">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember this device </label>
+            </div>
+
+            <button type="submit" id="loginBtn" class="btn-submit">
+                <span>AUTHENTICATE</span>
+            </button>
+        </form>
+
+        <div class="create-account-row">
+            New here? <a href="#" id="showSignupLink" class="create-account-link">Create Account</a>
+        </div>
+    </div>
+
+    <!-- 3b. CREATE ACCOUNT PANEL (same page, toggled via JS) -->
+    <div class="login-wrapper signup-wrapper" id="signup-panel">
+
+        <div class="header">
+            <!-- Cyber Shield Icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round" stroke-linecap="round" />
+                <path d="M9 12l2 2 4-4" stroke-linejoin="round" stroke-linecap="round" />
+            </svg>
+            <h2>Create Account</h2>
+            <p class="subtitle">Join the Secure Forensics Framework</p>
+        </div>
+
+        <form id="signupForm">
+            <!-- Full Name -->
+            <div class="input-group">
+                <input type="text" name="fullname" id="fullname" placeholder=" " required autocomplete="off">
+                <label>Full Name</label>
+            </div>
+
+            <!-- Email -->
+            <div class="input-group">
+                <input type="email" name="signupEmail" id="signupEmail" placeholder=" " required autocomplete="off">
+                <label>Work Email</label>
+            </div>
+
+            <!-- Password -->
+            <div class="input-group">
+                <input type="password" name="signupPassword" id="signupPassword" placeholder=" " required minlength="6">
+                <label>Password</label>
+                <svg class="toggle-password" id="signupEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="input-group" style="margin-bottom: 6px;">
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder=" " required
+                    minlength="6">
+                <label>Confirm Password</label>
+                <svg class="toggle-password" id="confirmEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </div>
+            <div class="field-hint" id="matchHint">Minimum 6 characters</div>
+
+            <!-- Terms -->
+            <div class="terms-row">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I agree to the <a href="#">Privacy Policy</a> and <a href="#">Terms of
+                        Service</a></label>
+            </div>
+
+            <button type="submit" id="signupBtn" class="btn-submit">
+                <span>CREATE ACCOUNT</span>
+            </button>
+        </form>
+
+        <div class="create-account-row">
+            Already have an account? <a href="#" id="showLoginLink" class="create-account-link">Login</a>
+        </div>
+    </div>
+
+    <!-- Outside Footer Links -->
+    <div class="out-footer">
+        Protected by Cyber Shield <br>
+        <a href="#">Privacy Policy</a> • <a href="#">Terms of Service</a>
+    </div>
+
+    <!-- 4. JAVASCRIPT LOGIC -->
+    <script>
+        // Password Show/Hide Toggle Logic
+        const eyeIcon = document.getElementById('eyeIcon');
+        const passwordInput = document.getElementById('password');
+
+        eyeIcon.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>`;
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
+            }
+        });
+
+        // --- PRE-LOGIN INTRO VIDEO LOGIC ---
+        const introContainer = document.getElementById('intro-container');
+        const introVideo = document.getElementById('intro-video');
+        const loginPanel = document.getElementById('login-panel');
+        const outFooter = document.querySelector('.out-footer');
+        const usernameInput = document.getElementById('username');
+
+        let introDismissed = false;
+
+        function revealLogin() {
+            if (introDismissed) return;
+            introDismissed = true;
+
+            // Crossfade: intro fades out while login fades in, at the same time
+            introContainer.style.opacity = '0';
+            introContainer.style.pointerEvents = 'none';
+
+            loginPanel.style.opacity = '1';
+            loginPanel.style.transform = 'scale(1)';
+            loginPanel.style.pointerEvents = 'auto';
+            outFooter.style.opacity = '1';
+
+            usernameInput.focus();
+
+            setTimeout(() => introVideo.pause(), 1000);
+        }
+
+        // Typing anywhere (when no field is already focused) jumps straight
+        // into the Work Email field, so the user doesn't have to click first.
+        document.addEventListener('keydown', function (e) {
+            const active = document.activeElement;
+            const alreadyTyping = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+            const isPrintableKey = e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey;
+
+            if (introDismissed && !alreadyTyping && isPrintableKey) {
+                usernameInput.focus();
+            }
+        });
+
+        introVideo.addEventListener('ended', revealLogin);
+        introVideo.addEventListener('error', revealLogin);
+
+        // Try to play (muted autoplay should work in all modern browsers)
+        introVideo.play().catch(() => {
+            /* Autoplay blocked - fall back to timer below */
+        });
+
+        // Only show the intro for 2.3 seconds, then reveal the login page
+        setTimeout(revealLogin, 2300);
+
+        // --- CREATE ACCOUNT <-> LOGIN PANEL TOGGLE ---
+        const signupPanel = document.getElementById('signup-panel');
+        const showSignupLink = document.getElementById('showSignupLink');
+        const showLoginLink = document.getElementById('showLoginLink');
+
+        showSignupLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            loginPanel.style.display = 'none';
+            signupPanel.classList.add('active');
+            document.getElementById('fullname').focus();
+        });
+
+        showLoginLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            signupPanel.classList.remove('active');
+            loginPanel.style.display = 'flex';
+            usernameInput.focus();
+        });
+
+        // Signup Password Show/Hide Toggles
+        document.getElementById('signupEyeIcon').addEventListener('click', function () {
+            const input = document.getElementById('signupPassword');
+            const icon = this;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>`;
+            } else {
+                input.type = 'password';
+                icon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
+            }
+        });
+
+        document.getElementById('confirmEyeIcon').addEventListener('click', function () {
+            const input = document.getElementById('confirmPassword');
+            const icon = this;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>`;
+            } else {
+                input.type = 'password';
+                icon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
+            }
+        });
+
+        // Live password match check
+        const signupPassword = document.getElementById('signupPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const matchHint = document.getElementById('matchHint');
+
+        function checkMatch() {
+            if (confirmPassword.value.length === 0) {
+                matchHint.textContent = 'Minimum 6 characters';
+                matchHint.classList.remove('mismatch');
+            } else if (signupPassword.value !== confirmPassword.value) {
+                matchHint.textContent = 'Passwords do not match';
+                matchHint.classList.add('mismatch');
+            } else {
+                matchHint.textContent = 'Passwords match';
+                matchHint.classList.remove('mismatch');
+            }
+        }
+
+        signupPassword.addEventListener('input', checkMatch);
+        confirmPassword.addEventListener('input', checkMatch);
+
+        // Signup Form Submit Logic
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('signupBtn');
+            const originalText = btn.innerHTML;
+
+            if (signupPassword.value !== confirmPassword.value) {
+                btn.innerHTML = `<span>PASSWORDS DO NOT MATCH</span>`;
+                btn.classList.add('btn-error');
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('btn-error');
+                }, 2000);
+                return;
+            }
+
+            btn.innerHTML = `<span>ACCOUNT CREATED</span>`;
+            btn.style.background = '#14f1d9';
+            btn.style.color = '#000';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Switch back to the login panel after a successful signup
+                signupPanel.classList.remove('active');
+                loginPanel.style.display = 'flex';
+                usernameInput.focus();
+
+                // Reset the signup form and button for next time
+                document.getElementById('signupForm').reset();
+                matchHint.textContent = 'Minimum 6 characters';
+                matchHint.classList.remove('mismatch');
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.disabled = false;
+            }, 1200);
+        });
+
+        // 3161 Login & Video Transition Logic
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+            const originalText = btn.innerHTML;
+
+            if (user === '3161' && pass === '3161') {
+                btn.innerHTML = `<span>ACCESS GRANTED</span>`;
+                btn.style.background = '#14f1d9';
+                btn.style.color = '#000';
+                btn.style.pointerEvents = 'none';
+
+                setTimeout(() => {
+                    // Smooth fade out of the UI elements
+                    document.getElementById('login-panel').style.opacity = '0';
+                    document.getElementById('login-panel').style.transform = 'scale(0.9)';
+                    document.querySelector('.out-footer').style.opacity = '0';
+                    document.getElementById('login-bg-container').style.opacity = '0';
+
+                    // Redirect once the fade-out finishes
+                    setTimeout(() => {
+                        window.location.href = 'Cryptoscopedashboard.html';
+                    }, 1000);
+
+                }, 1500);
+
+            } else {
+                btn.innerHTML = `<span>ACCESS DENIED</span>`;
+                btn.classList.add('btn-error');
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('btn-error');
+                    document.getElementById('password').value = '';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+
+</html>
