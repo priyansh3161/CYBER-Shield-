@@ -176,7 +176,7 @@ Each stream is assigned an aggregated **0–100 Risk Score** and mapped to a sev
 
 ---
 
-## Machine Learning Integration (Optional)
+## Machine Learning Integration 
 
 In addition to heuristic rule evaluation and Isolation Forests, custom supervised models can be trained:
 
