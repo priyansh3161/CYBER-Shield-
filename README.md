@@ -189,8 +189,4 @@ Compiled model artifacts (`.joblib`) placed in `models_store/` are automatically
 
 ---
 
-## Roadmap
 
-- [ ] Implement JWT token authentication replacing placeholder login scripts.
-- [ ] Implement Docker and Kubernetes configurations for scalable deployments.
-- [ ] Expand protocol dissection coverage for custom enterprise mail gateways.
