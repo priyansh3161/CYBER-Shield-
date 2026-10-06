@@ -1,13 +1,24 @@
 # Cyber Shield / Cryptoscope
-### AI-Assisted Email Cryptographic Forensics Framework
+> **AI-Assisted Email Cryptographic Forensics Framework**
 
-Email traffic (SMTP / IMAP / POP3 + modern Outlook 365 / Gmail over HTTPS) ko dono **live** aur **batch (PCAP)** mode me monitor karke, TLS/crypto hygiene issues detect karta hai — weak ciphers, deprecated TLS, STARTTLS-stripping, expired/self-signed certs, weak keys — aur unhe ek central dashboard pe risk-scored findings ke saath surface karta hai.
+Cryptoscope is a comprehensive cryptographic forensics framework designed to monitor and evaluate email traffic (SMTP, IMAP, POP3, and modern Outlook 365/Gmail over HTTPS). Operating in both **live** and **batch (PCAP)** modes, it detects TLS and cryptographic hygiene vulnerabilities—such as weak ciphers, deprecated TLS versions, STARTTLS-stripping attacks, expired/self-signed certificates, and weak cryptographic keys. All findings are surfaced on a centralized web dashboard with detailed AI-assisted risk scoring and mitigation recommendations.
 
 ---
 
-## Architecture
+## Key Features
 
-```
+- **Dual-Engine Architecture:** Real-time live traffic capture via a high-performance C++ engine alongside a deep forensic 9-stage Python batch pipeline for PCAPs.
+- **Protocol & Traffic Coverage:** Support for legacy email protocols (SMTP, IMAP, POP3) as well as HTTPS-based webmail/cloud services (Outlook 365, Gmail via SNI classification).
+- **Comprehensive Crypto Auditing:** Detects weak/deprecated TLS versions, weak cipher suites, static RSA key exchanges, weak certificate signatures, and key size deficiencies.
+- **Active Interception Detection:** Identifies STARTTLS stripping attempts and suspicious handshake downgrades.
+- **AI/ML Risk Scoring:** Blends deterministic heuristic scoring with machine learning (Isolation Forest for anomaly detection and optional supervised classifiers).
+- **Centralized Dashboard:** Real-time alert feed via WebSockets, historical threat analytics, and automated PDF forensic report generation.
+
+---
+
+## System Architecture
+
+```text
 ┌─────────────────────────┐        ┌──────────────────────────┐
 │  LOCAL C++ ENGINE       │        │  CLOUD PYTHON ENGINE     │
 │  (Live Traffic Path)    │        │  (Batch PCAP Forensics)  │
@@ -43,133 +54,143 @@ Email traffic (SMTP / IMAP / POP3 + modern Outlook 365 / Gmail over HTTPS) ko do
                                ▼
                   ┌──────────────────────────┐
                   │   Web Dashboard          │
-                  │  index.html (login)      │
+                  │   index.html (login)     │
                   │Cryptoscopedashboard.html │
                   └──────────────────────────┘
 ```
 
-Dono engines (live C++ aur batch Python) independently apna-apna analysis karte hain lekin **same backend** pe data push karte hain, isliye dashboard pe live alerts aur uploaded-PCAP findings ek hi jagah dikhte hain.
+Both engines operate independently but stream structured telemetry and security findings to a unified REST API and Supabase database backend.
 
 ---
 
-## Components -> Files
+## Component Overview
 
-| Component | File(s) | Kaam |
+| Component | Main File(s) | Functionality |
 |---|---|---|
-| Local real-time engine | `localengine.cpp` | Live interface sniff karta hai, STARTTLS-stripping / weak-TLS heuristics apply karta hai, suspicious events cloud ko bhejta hai |
-| PCAP batch pipeline | `traffic_dissection.py`, `protocol_identifier.py`, `stream_reconstructor.py`, `starttls_detector.py`, `tls_handshake_parser.py`, `crypto_feature_extractor.py`, `security_assessor.py`, `ai_ml_analyzer.py`, `report_generator.py` | 9-stage forensic analysis of an uploaded `.pcap` file |
-| Pipeline orchestrator | `main.py` | Saare 9 stages ko wire karta hai, CLI se bhi chal sakta hai |
-| Shared data models | `models.py` | `TCPStream`, `CryptoFeatures`, `SecurityFinding`, `StreamVerdict` |
-| ML feature schema | `feature_schema.py` | Training aur inference dono ke liye same numeric feature vector (drift se bachata hai) |
-| Model training (optional) | `dataset_builder.py`, `train_model.py` | Labeled PCAPs se RandomForest classifiers train karna |
-| Backend API | `app.py` | FastAPI: `/api/upload`, `/api/history`, `/api/analytics`, `/ws/live`, PDF report endpoint, Supabase integration |
-| Login page | `index.html` | Neon/glassmorphism auth screen |
-| Main dashboard | `Cryptoscopedashboard.html` | Live alerts, uploaded PCAP reports, analytics, PDF download |
+| **Real-Time Engine** | `localengine.cpp` | Captures live interface traffic, evaluates STARTTLS and TLS handshake heuristics, and alerts backend APIs. |
+| **PCAP Forensic Engine** | `traffic_dissection.py`<br>`protocol_identifier.py`<br>`stream_reconstructor.py`<br>`starttls_detector.py`<br>`tls_handshake_parser.py`<br>`crypto_feature_extractor.py`<br>`security_assessor.py`<br>`ai_ml_analyzer.py`<br>`report_generator.py` | Executes a modular 9-stage deep forensic analysis on uploaded `.pcap` capture files. |
+| **Pipeline Orchestrator** | `main.py` | CLI controller that coordinates the 9-stage forensic pipeline. |
+| **Data Models & Schema** | `models.py`<br>`feature_schema.py` | Core data models and a standardized numerical schema for ML feature vectors. |
+| **ML Training Utilities** | `dataset_builder.py`<br>`train_model.py` | Scripts to extract feature sets from PCAPs and train custom ML models. |
+| **Backend Service** | `app.py` | FastAPI backend managing endpoints, WebSockets, Supabase integration, and PDF exports. |
+| **User Interface** | `index.html`<br>`Cryptoscopedashboard.html` | Frontend interface for monitoring real-time telemetry, viewing reports, and analyzing security metrics. |
 
 ---
 
-## Setup
+## Getting Started
 
-### 1. Python backend + batch pipeline
+### Prerequisites
+
+- **Python:** 3.9 or higher
+- **C++ Compiler:** `g++` (C++17 support required)
+- **Libraries (Linux):** `libpcap-dev`, `libcurl4-openssl-dev`
+
+---
+
+### Installation & Setup
+
+#### 1. Backend Service Setup
+
+Install Python dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-`requirements.txt` me: `fastapi`, `uvicorn`, `websockets`, `python-multipart`, `supabase`, `scapy`, `cryptography`, `scikit-learn`, `numpy`, `pandas`, `joblib`. PDF generation ke liye `reportlab` bhi chahiye (`app.py` isse import karta hai, `requirements.txt` me add karna na bhoolein).
-
-Environment variables set karo (production ke liye zaroori):
+Set environment variables for Supabase database access:
 
 ```bash
 export SUPABASE_URL="https://<your-project>.supabase.co"
-export SUPABASE_KEY="<your-anon-or-service-key>"
+export SUPABASE_KEY="<your-service-key>"
 ```
 
-> **Zaroori:** `app.py` me abhi ek fallback Supabase key hardcoded hai. Agar ye code kabhi public repo me commit hua hai, us key ko Supabase dashboard se turant rotate karo aur fallback hata ke sirf env var pe rely karo.
-
-Backend chalao:
+Start the FastAPI application:
 
 ```bash
-python app.py
-# ya
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
-### 2. Standalone batch pipeline (bina backend ke bhi)
+#### 2. Local Real-Time C++ Engine
+
+Install required capture packages (Ubuntu/Debian):
 
 ```bash
-python main.py capture.pcap --out report.json --html report.html
+sudo apt-get update
+sudo apt-get install libpcap-dev libcurl4-openssl-dev
 ```
 
-### 3. Local C++ real-time engine
+Compile and run the binary:
 
 ```bash
-sudo apt-get install libpcap-dev libcurl4-openssl-dev
 g++ -O2 -std=c++17 localengine.cpp -o rt_engine -lpcap -lcurl -lpthread
 sudo ./rt_engine eth0 https://<your-backend-host>/api/events
 ```
 
-Self-test (interface ke bina):
+Run self-test diagnostics without live network interfaces:
 
 ```bash
 ./rt_engine --self-test
 ```
 
-Windows ke liye Npcap SDK + libcurl chahiye — detail `localengine.cpp` ke top comment me hai.
+*(Note: For Windows deployment, ensure Npcap SDK and libcurl are installed and linked).*
 
-### 4. Dashboard
+#### 3. Standalone PCAP Analysis (CLI)
 
-`index.html` aur `Cryptoscopedashboard.html` ko kisi static host pe serve karo (ya seedha browser me kholo). Dashboard `Cryptoscopedashboard.html` ke andar `API_BASE` aur `WS_URL` constants apne backend URL se match karne chahiye.
+Run forensic analysis on a captured file without launching the web server:
 
-> **Zaroori:** `index.html` ka login abhi ek hardcoded client-side check hai (`user === '3161' && pass === '3161'`), aur signup form kuch save nahi karta — dono cosmetic hai, real auth nahi. Production ke liye Supabase Auth (`signInWithPassword` / `signUp`) integrate karna padega.
+```bash
+python main.py sample_capture.pcap --out report.json --html report.html
+```
 
 ---
 
-## API Endpoints (app.py)
+## API Documentation
 
-| Method | Path | Kaam |
+| Method | Endpoint | Description |
 |---|---|---|
-| GET | `/` | Health/status |
-| GET | `/api/health` | Simple health check |
-| GET | `/api/history` | Recent alerts + threat_logs (Supabase se) |
-| GET | `/api/analytics` | Charts ke liye raw alerts/threat_logs |
-| GET | `/api/engine/status` | C++ engine online/offline status |
-| POST | `/api/events` | C++ engine se suspicious event ingest |
-| POST | `/api/engine/heartbeat` | C++ engine heartbeat |
-| POST | `/api/upload` | `.pcap` upload -> 9-stage pipeline run -> JSON report |
-| POST | `/api/pcap/report/pdf` | Ek report ka branded PDF generate karta hai |
-| WS | `/ws/live` | Dashboard ke liye live broadcast channel |
+| `GET` | `/` | Service root and health check |
+| `GET` | `/api/health` | Standard status endpoint |
+| `GET` | `/api/history` | Fetches historical security alerts and threat logs |
+| `GET` | `/api/analytics` | Returns aggregated metrics for dashboard visualizers |
+| `GET` | `/api/engine/status` | Reports the health status of the real-time C++ engine |
+| `POST` | `/api/events` | Ingests real-time events from the C++ engine |
+| `POST` | `/api/engine/heartbeat` | C++ engine heartbeat check |
+| `POST` | `/api/upload` | Uploads `.pcap` files for 9-stage forensic processing |
+| `POST` | `/api/pcap/report/pdf` | Generates a branded PDF report for a completed analysis |
+| `WS` | `/ws/live` | WebSocket endpoint for broadcasting live security events |
 
 ---
 
-## Detect kya hota hai
+## Detection Scope
 
-- Deprecated TLS (SSLv3 / TLS 1.0 / 1.1)
-- Weak ciphers (RC4, 3DES, NULL, EXPORT, MD5)
-- No forward secrecy (static RSA key exchange)
-- Missing/failed STARTTLS upgrade (stripping attack indicator)
-- Self-signed, expired, soon-to-expire certificates
-- Weak key sizes (RSA < 2048 bit, EC < 224 bit)
-- Weak signature algorithms (MD5/SHA-1 signed certs)
-- Statistical anomalies via IsolationForest
-- Outlook 365 / Gmail HTTPS traffic ko SNI se classify karke same heuristics apply karna
+Cryptoscope identifies and flags the following security indicators:
 
-Har stream ko final **0-100 risk score** + **Critical/High/Medium/Low/Safe** classification milta hai, mitigation recommendations ke saath.
+- **Deprecated Protocols:** SSLv3, TLS 1.0, and TLS 1.1 usages.
+- **Weak Ciphers:** RC4, 3DES, NULL, EXPORT, MD5 cipher suites.
+- **Missing Forward Secrecy:** Usage of static RSA key exchange algorithms.
+- **STARTTLS Downgrades:** Insecure plain-text negotiation or stripping attacks.
+- **Certificate Vulnerabilities:** Expired, self-signed, weak signature (MD5/SHA1), or insufficient key lengths (RSA < 2048-bit, EC < 224-bit).
+- **Anomalous Traffic:** Statistical deviations scored via an unsupervised Isolation Forest model.
 
-## (Optional) Apna model train karna
+Each stream is assigned an aggregated **0–100 Risk Score** and mapped to a severity tier (`Critical`, `High`, `Medium`, `Low`, `Safe`).
+
+---
+
+## Machine Learning Integration (Optional)
+
+In addition to heuristic rule evaluation and Isolation Forests, custom supervised models can be trained:
 
 ```bash
 python dataset_builder.py labeled_captures/ --out training_data.csv
 python train_model.py training_data.csv
 ```
 
-Isse `models_store/binary_classifier.joblib` aur `models_store/risk_classifier.joblib` banega, jo agli baar `main.py`/`app.py` chalate hi `ai_ml_analyzer.py` automatically load kar lega — training zaroori nahi hai, rule-based scoring + IsolationForest bina training ke bhi kaam karta hai.
+Compiled model artifacts (`.joblib`) placed in `models_store/` are automatically loaded during pipeline execution.
 
 ---
 
-## Known Issues / TODO
+## Roadmap
 
-- [ ] `app.py`: hardcoded Supabase key fallback hatao, sirf env var use karo
-- [ ] `index.html`: real Supabase Auth se replace karo hardcoded `3161/3161` check ko
-- [ ] `index.html`: signup form ko backend se connect karo (abhi kuch save nahi karta)
-- [ ] `requirements.txt` me `reportlab` add karo (app.py use karta hai)
+- [ ] Implement JWT token authentication replacing placeholder login scripts.
+- [ ] Implement Docker and Kubernetes configurations for scalable deployments.
+- [ ] Expand protocol dissection coverage for custom enterprise mail gateways.
